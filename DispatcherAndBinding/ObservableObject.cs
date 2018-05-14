@@ -13,7 +13,7 @@ namespace DispatcherAndBinding
         }
        
         public bool Login(string nickname, string groupID) {//try to log in
-   
+        
             if (nickname == "hilay" & groupID == "vais")
                 return true;
             return false;

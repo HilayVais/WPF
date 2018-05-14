@@ -57,6 +57,11 @@
     <Compile Include="Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DBManager.cs" />
+    <Compile Include="LogFile.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Paths.cs" />
+    <Compile Include="User.cs" />
     <Page Include="Chat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
