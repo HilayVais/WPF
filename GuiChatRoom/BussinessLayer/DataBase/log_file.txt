@@ -1,0 +1,18 @@
+﻿24/04/2018 13:11:13    logged in 
+24/04/2018 13:11:16    the user is logged out 
+24/04/2018 13:11:23    logged in 
+24/04/2018 13:11:26    message has been sent  
+24/04/2018 13:11:29     exit  
+24/04/2018 15:46:42    logged in 
+24/04/2018 15:46:53    message has been sent  
+24/04/2018 15:46:58    Retrive10Messages 
+24/04/2018 15:47:03   Retrive20Messages 
+24/04/2018 15:47:42    GetUserMessages
+24/04/2018 15:48:03     exit  
+24/04/2018 15:50:02     registaration success 
+24/04/2018 15:50:08    the user is logged out 
+24/04/2018 15:52:45    logged in 
+24/04/2018 15:52:55    the user is logged out 
+24/04/2018 15:52:57     exit  
+24/04/2018 15:53:33    logged in 
+24/04/2018 15:53:39     login failed 
