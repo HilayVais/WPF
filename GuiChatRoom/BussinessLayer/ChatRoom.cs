@@ -8,6 +8,7 @@ namespace GuiChatRoom.BussinessLayer
 {
     public class ChatRoom
     {
+        //
         private BussinessLayer.User loogedInUser = null;
         private List<BussinessLayer.Message> messages = new List<BussinessLayer.Message>();
         private List<BussinessLayer.User> users = new List<BussinessLayer.User>();
