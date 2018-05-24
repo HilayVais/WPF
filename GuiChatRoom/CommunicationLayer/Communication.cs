@@ -48,7 +48,7 @@ namespace GuiChatRoom.CommunicationLayer
         /// <param name="url">url of the server</param>
         /// <param name="msg">CommunicationMessage message content</param>
         /// <returns>Guid from server back to client.</returns>
-        public IMessage Send(string url, string gourpID, string nickName, string messageContent)
+        public static IMessage Send(string url, string gourpID, string nickName, string messageContent)
         {
             return SimpleHTTPClient.SendPostRequest(url, new Request(new Guid(), gourpID, nickName, messageContent, 0, "1"));
         }

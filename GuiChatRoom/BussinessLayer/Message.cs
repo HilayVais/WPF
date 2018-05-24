@@ -25,6 +25,10 @@ namespace GuiChatRoom.BussinessLayer
             //	Save();
         }
 
+        public String GetBody()
+        {
+            return this.body;
+        }
         public void Save()
         {
             //MessageHandler.saveMassage(this);
@@ -52,6 +56,19 @@ namespace GuiChatRoom.BussinessLayer
         public int CompareTo(Message m)
         {
             return this.time.CompareTo(m.time);
+        }
+        override
+        public String ToString()
+        {
+           return this.user.GetNickname() +", group "+this.group_id+  " : " + this.body +System.Environment.NewLine+ "Date & Time :" + this.time;
+        }
+        override
+        public Boolean Equals(object o)
+        {
+            Message m1 = (Message) o;
+            if (this.GetTime().Equals(m1) && this.body==m1.body)
+                return true;
+            return false;
         }
 
     }

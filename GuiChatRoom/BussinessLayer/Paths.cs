@@ -10,11 +10,10 @@ namespace GuiChatRoom
     {
 
 
-        static string Path = @"C:/Users/mohamad/Desktop/chatroom/MilestoneClient1/BussinessLayer/DataBase";
-
+        static string Path = @"C:\Users\hilay123\source\repos\GuiChatRoom\GuiChatRoom\BussinessLayer\DataBase";
         public static string UsersDBPath()
         {
-            return Path + @"/Registration.txt";
+            return Path + @"/registration.txt";
         }
         public static string msgDBPath()
         {

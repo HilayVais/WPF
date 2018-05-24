@@ -6,13 +6,28 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EF2F9914-105D-4D65-9170-33844DB48BC1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DispatcherAndBinding</RootNamespace>
-    <AssemblyName>DispatcherAndBinding</AssemblyName>
+    <RootNamespace>GuiChatRoom</RootNamespace>
+    <AssemblyName>GuiChatRoom</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,12 +71,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="PresentationLayer\App.xaml">
+    <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="PresentationLayer\Chat.xaml.cs">
+    <Compile Include="PresentationLayer\NicknameComparator.cs" />
+    <Compile Include="PresentationLayer\GroupComparator.cs" />
+    <Compile Include="Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
+      <CustomToolNamespace>GuiChatRoom</CustomToolNamespace>
     </Compile>
     <Compile Include="BussinessLayer\ChatRoom.cs" />
     <Compile Include="CommunicationLayer\Communication.cs" />
@@ -72,26 +90,26 @@
     <Compile Include="PresentationLayer\ObservableObject1.cs" />
     <Compile Include="BussinessLayer\Paths.cs" />
     <Compile Include="BussinessLayer\User.cs" />
-    <Page Include="PresentationLayer\Chat.xaml">
+    <Compile Include="PresentationLayer\TimestampComparator.cs" />
+    <Page Include="Chat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>GuiChatRoom</CustomToolNamespace>
     </Page>
-    <Page Include="PresentationLayer\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="PresentationLayer\App.xaml.cs">
+    <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PresentationLayer\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PresentationLayer\prevProgram.cs" />
-    <Compile Include="PresentationLayer\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -120,10 +138,26 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="BussinessLayer\DataBase\Registaration.txt" />
+    <Resource Include="welcome.jpg" />
+    <Resource Include="chatroom.jpg" />
+    <Resource Include="chat.jpg" />
     <Resource Include="BussinessLayer\DataBase\messages.txt" />
     <Resource Include="BussinessLayer\DataBase\last20msg.txt" />
+    <Resource Include="BussinessLayer\DataBase\registration.txt" />
     <Content Include="BussinessLayer\DataBase\log_file.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
