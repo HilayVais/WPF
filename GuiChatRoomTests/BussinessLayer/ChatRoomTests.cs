@@ -25,7 +25,7 @@ namespace GuiChatRoom.BussinessLayer.Tests
         {
             string url = "http://ise172.ise.bgu.ac.il:80";
             ChatRoom c1 = new ChatRoom(url);
-            Assert.IsTrue(c1.Registeration("in new user", "65"));//unregistered user
+            Assert.IsFalse(c1.Registeration("new user for tests", "65"));//unregistered user
         }
 
     }

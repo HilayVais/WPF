@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,23 +40,74 @@ namespace GuiChatRoom.BussinessLayer
         {
             foreach (BussinessLayer.User u in users)
                 if (u.GetNickname().Equals(nickname))
+                {
+                    DateTime c6 = DateTime.Now;
+                    // Create a string array with the lines of text
+                    string[] lines1 = { c6 + "     registaration failed  " };
+                    // Write the string array to a new file named "WriteLines.txt".
+
+                    StreamWriter outputFile1;
+                    using (outputFile1 = File.AppendText(GuiChatRoom.Paths.logDBPath()))
+                    {
+                        foreach (string line in lines1)
+                            outputFile1.WriteLine(line);
+                    }
+
+                    outputFile1.Close();
                     return false;
+                }
             BussinessLayer.User u1 = new BussinessLayer.User(nickname, groupID);
             users.Add(u1);
             this.loogedInUser = u1;
-            //save the new user to persistent layer
+            DateTime c4 = DateTime.Now;
+            // Create a string array with the lines of text
+            string[] lines = { c4 + "     registaration success " };
+            // Write the string array to a new file named "WriteLines.txt".
+            StreamWriter outputFile;
+            using (outputFile = File.AppendText(GuiChatRoom.Paths.logDBPath()))
+            {
+                foreach (string line in lines)
+                    outputFile.WriteLine(line);
+            }
+
+            outputFile.Close();
             return DBmanager.Register(nickname, groupID); 
         }
 
         public Boolean LogIn(string nickname, string groupID)
         {
             BussinessLayer.User u = FindUser(nickname,groupID,true);
-            if (u == null)
+            if (u == null || u.GetGroupID() != groupID)
+            {
+                DateTime c2 = DateTime.Now;
+                string[] lines = { c2 + "     login failed " };
+                // Write the string array to a new file named "WriteLines.txt".
+
+                StreamWriter outputFile;
+                using (outputFile = File.AppendText(GuiChatRoom.Paths.logDBPath()))
+                {
+                    foreach (string line in lines)
+                        outputFile.WriteLine(line);
+                }
+                outputFile.Close();
                 return false;
-            if (u.GetGroupID() != groupID)
-                return false;
-            loogedInUser = u;
-            return true;
+            }
+            else
+            {
+                DateTime c = DateTime.Now;
+                string[] lines = { c + "    logged in " };
+                // Write the string array to a new file named "WriteLines.txt".
+                StreamWriter outputFile;
+                using (outputFile = File.AppendText(Paths.logDBPath()))
+                {
+                    foreach (string line in lines)
+                        outputFile.WriteLine(line);
+                }
+
+                outputFile.Close();
+                loogedInUser = u;
+                return true;
+            }
                   }
 
         private BussinessLayer.User FindUser(string nickname,string gID,Boolean  logIn)
@@ -69,7 +121,7 @@ namespace GuiChatRoom.BussinessLayer
             return newUser;
         }
 
-        public void Retrive10Messages()
+        public List<BussinessLayer.Message> Retrive10Messages()
         {
             List<BussinessLayer.Message> Rmessages = new List<BussinessLayer.Message>();
             List<CommunicationLayer.IMessage> RImessages = CommunicationLayer.Communication.Instance.GetTenMessages(url);
@@ -83,6 +135,7 @@ namespace GuiChatRoom.BussinessLayer
                     msgCounter++;
                 }
             }
+            return this.messages;
         }
 
         public Boolean containMessage(Message m1)
@@ -99,19 +152,54 @@ namespace GuiChatRoom.BussinessLayer
         }
         public Boolean SendMessage(string msg)
         {
-            if (this.loogedInUser == null)
+            if (this.loogedInUser == null | msg.Length > 150)
+            {
+              /*  DateTime c12 = DateTime.Now;
+                // Create a string array with the lines of text
+                string[] lines = { c12 + "    wrong sending message " };
+                // Write the string array to a new file named "WriteLines.txt".
+
+                StreamWriter outputFile;
+                using (outputFile = File.AppendText(GuiChatRoom.Paths.logDBPath()))
+                {
+                    foreach (string line in lines)
+                        outputFile.WriteLine(line);
+                }
+
+                outputFile.Close();*/
                 return false;
-            if (msg.Length > 150)
-                return false;
+            }
+
             BussinessLayer.Message m = this.loogedInUser.SendMessage(msg, this);
-           // messages.Add(m);
-           //msgCounter++;
-           // Retrive10Messages();
+            DateTime c11 = DateTime.Now;
+            string[] lines = { c11 + "    message has been sent  " };
+            // Write the string array to a new file named "WriteLines.txt".
+
+            StreamWriter outputFile;
+            //using (outputFile = File.AppendText(GuiChatRoom.Paths.logDBPath()))
+            {
+                //   foreach (string line in lines)
+                //outputFile.WriteLine(line);
+            }
+
+            //outputFile.Close();
             return true;
         }
 
         public void LogOut()
         {
+            DateTime c3 = DateTime.Now;
+            // Create a string array with the lines of text
+            string[] lines = { c3 + "    the user is logged out " };
+            // Write the string array to a new file named "WriteLines.txt".
+            StreamWriter outputFile;
+            using (outputFile = File.AppendText(GuiChatRoom.Paths.logDBPath()))
+            {
+                foreach (string line in lines)
+                    outputFile.WriteLine(line);
+            }
+
+            outputFile.Close();
             this.loogedInUser = null;
         }
         public List<BussinessLayer.Message> GetUserMsg(string nick, string groupID)

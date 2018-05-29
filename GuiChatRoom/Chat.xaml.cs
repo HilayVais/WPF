@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Timers;
 using GuiChatRoom.BussinessLayer;
 using System.ComponentModel;
+using System.IO;
 
 namespace GuiChatRoom
 {
@@ -25,54 +26,35 @@ namespace GuiChatRoom
         private static System.Timers.Timer aTimer;
        public  ObservableObject1 _main;
         MainWindow mainWin;
-        public List <Message> msgList;
-     private   User loogedIn;
         private string sort = null;
         private string filter = null;
+        ChatRoom c1;
         private GroupComparator groupCompare = new GroupComparator();
         private NicknameComparator nickCompare = new NicknameComparator();
         private TimestampComparator timeCompare = new TimestampComparator();
+        List<Message> msgList;
 
-
-
-
-        public Chat(ObservableObject1 _main, MainWindow mainWin)
+        public Chat(ObservableObject1 _main, MainWindow mainWin, ChatRoom c1)
         {
-          //  this.loogedIn = _main.GetUser();
+            this.c1 = c1;
             this.mainWin = mainWin;
             this._main = _main;
             InitializeComponent();
-           this.DataContext = _main;
-            _main.retrieve10Messages();
-            this.msgList = new List<Message>();
-            Refresh();
-           ListToListbox();
-           // chatBox.ItemsSource = msgList;
+            this.DataContext = _main;
+            retrieve10Messages();
             aTimer = new Timer();
             aTimer.Interval=2000;
             aTimer.Elapsed += OnTimedEvent;
-            aTimer.Start();
-           // aTimer.AutoReset = true;
-            //aTimer.Enabled = true;
-            filterBox.Items.Add("none");
-            filterBox.Items.Add("group");
-            filterBox.Items.Add("user");
-            sortBox.Items.Add("none");
-            sortBox.Items.Add("nickname");
-            sortBox.Items.Add("Message timestamp");
-            sortBox.Items.Add("gID,nickname,timestamp");
-            
+            aTimer.Start();                 
         }
         private  void OnTimedEvent(Object source,ElapsedEventArgs e)
         {
-            _main.retrieve10Messages();
-            Refresh();
-            //ListToListbox();
+            retrieve10Messages();
         }
 
         private void logOut_Click(object sender, RoutedEventArgs e)
         {
-            this._main.logOut();
+            c1.LogOut();
             aTimer.Stop();
             aTimer.Dispose();
             mainWin.Show();
@@ -81,65 +63,27 @@ namespace GuiChatRoom
 
         private void send_Click(object sender, RoutedEventArgs e)
         {
-              if( !_main.sendMessage(msgText.Text))
-                  MessageBox.Show(this, "wrong message (over 150 chars) ,try again");
-             msgText.Text = "";
-           this.Refresh();
-
+            if (!c1.SendMessage(_main.Text))
+                MessageBox.Show(this, "wrong message (over 150 chars) ,try again");
+            else
+            {
+                msgText.Text = "";
+                retrieve10Messages();
+            }
         }
 
-         public void ListToListbox()
-         {
-             foreach (Message m in msgList)
-                if (!chatBox.Items.Contains(m))
-                    chatBox.Items.Add(m);
-        }
-        private void Refresh()
+               public void retrieve10Messages()
         {
-            List<Message> TempMsgList = _main.GetAllMessages();
-            
-            foreach (Message m in TempMsgList)
-              if (m != null && !msgList.Contains(m))
-              msgList.Add(m);
+            msgList = c1.Retrive10Messages();
+            LinkedList<String> s = new LinkedList<String>();
+            foreach (Message m in msgList)
+                s.AddLast(m.ToString());
+            _main.Messages = s;
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void msgText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.filter=filterBox.Text;
-            this.sort = sortBox.Text;
-            this.filterAndSort();
+
         }
-        private void SortByNickname(){this.msgList.Sort(this.nickCompare); }
-        private void SortByMessageTimestamp() { this.msgList.Sort(this.timeCompare); }
-        private void SortByCombo() {
-            this.msgList.Sort(this.groupCompare);
-            SortByNickname();
-            SortByMessageTimestamp();
-        }
-        private void FilterByGroup() {
-            foreach (Message msg in msgList)
-                          if (!msg.GetUser().GetGroupID().Equals( loogedIn.GetGroupID()))
-                                 msgList.Remove(msg);
-        }
-        private void FilterByUser() {
-            this.FilterByGroup();
-            foreach (Message msg in msgList)
-                    msgList.Remove(msg);
-        }
-        public void filterAndSort()
-        {
-            this.msgList = _main.GetAllMessages();
-            if (filter == "group")
-                this.FilterByGroup();
-            if (filter == "user")
-                this.FilterByUser();
-            if (sort == "nickname")
-                this.SortByNickname();
-            if (sort == "Message timestamp")
-                this.SortByMessageTimestamp();
-            if (sort == "gID,nickname,timestamp")
-                this.SortByCombo();
-            this.ListToListbox();
-        }
-    }
+    }            
 }
